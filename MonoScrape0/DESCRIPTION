@@ -17,4 +17,6 @@ RoxygenNote: 7.1.1
 Imports: tidyverse,
     data.table,
     rvest,
-    stringr
+    stringr,
+    lubridate
+    

@@ -7,12 +7,16 @@
 # Prerequisites: ?
 # Misc:#### Set up workspace ####
 
+#build directories
+dir.create('inputs/data/EightOunce/Coffees', recursive=TRUE)
+dir.create('outputs/')
+
 #necessary libraries
 library(tidyverse)
 library(rvest)
+library(data.table)
 library(lubridate)
 library(stringr)
-library(data.table)
 
 #get rundate for file names
 rundate = toString(sapply(date(now()), gsub, pattern = "-", replacement = "", fixed = TRUE))
