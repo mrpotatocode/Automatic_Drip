@@ -35,7 +35,7 @@ Roaster <- tibble("https://eightouncecoffee.ca/collections/monogram-coffee") %>%
 #get node
 slightly_cleaned_data <- 
   raw_data %>% 
-  html_nodes("div [class='grid-product__content']") %>% 
+  html_nodes("div [class='grid-product__title grid-product__title--heading']") %>% 
   html_text()
 
 #tibble the character vector
@@ -50,9 +50,10 @@ coffee_names <- our_data %>%
   mutate(lower_name =  str_to_lower(Name)) %>% 
   mutate(is_blend = if_else(lower_name %like% "blend",1,0),
          is_espresso = if_else(lower_name %like% "espresso",1,0),
-         is_decaf = if_else(lower_name %like% "decaf",1,0)) %>% 
-  filter(is_blend != 1, is_espresso != 1, is_decaf != 1) %>% 
-  select(-is_blend, -is_espresso, -is_decaf)
+         is_decaf = if_else(lower_name %like% "decaf",1,0),
+         is_on_sale = if_else(lower_name %like% "sale",1,0)) %>% 
+  filter(is_blend != 1, is_espresso != 1, is_decaf != 1, is_on_sale != 1) %>% 
+  select(-is_blend, -is_espresso, -is_decaf, -is_blend, -is_on_sale)
 
 
 #covert to hypenated words (e.g. 'the-library-specialty-coffee-ethiopia-chelelektu-washed')
