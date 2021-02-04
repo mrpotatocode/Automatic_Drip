@@ -11,11 +11,17 @@ License: MIT
 Depends: 
     R
 Imports: 
-    tidyverse,
+    dplyr,
+    tidyr,
+    readr,
+    tibble,
     data.table,
     rvest,
     stringr,
-    lubridate
+    lubridate,
+    xml2,
+    magrittr,
+    here
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

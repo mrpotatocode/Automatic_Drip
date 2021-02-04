@@ -2,28 +2,31 @@
 #### Preamble ####
 # Purpose: The purpose of this script is to download all of the coffees by Mongraph on EightOunceCoffee.ca
 # Author: Thomas Rosenthal
-# Email: rohan.alexander@utoronto.ca
+# Email: t.rose.github@protonmail.com
 # Last updated: 31 Jan 2021
 # Prerequisites: ?
 # Misc:#### Set up workspace ####
 
 #build directories
-dir.create('inputs/data/EightOunce/Coffees', recursive=TRUE)
-dir.create('outputs/')
+dir.create('R/inputs/data/EightOunce/Coffees', recursive=TRUE)
+dir.create('R/outputs/')
 
-#necessary libraries
-library(tidyverse)
-library(rvest)
-library(data.table)
 library(lubridate)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(tibble)
+library(data.table)
+library(rvest)
 library(stringr)
+library(here)
 
 #get rundate for file names
 rundate = toString(sapply(date(now()), gsub, pattern = "-", replacement = "", fixed = TRUE))
 
 #get and save data
 raw_data <- read_html("https://eightouncecoffee.ca/collections/monogram-coffee")
-write_html(raw_data,paste0("inputs/data/EightOunce/Monogram_" ,rundate, ".html"))
+write_html(raw_data,paste0("R/inputs/data/EightOunce/Monogram_" ,rundate, ".html"))
 
 #get roaster, its easier to have it seperate
 Roaster <- tibble("https://eightouncecoffee.ca/collections/monogram-coffee") %>% 
@@ -110,7 +113,7 @@ for(i in URLs){
     html_text()
   
   #save the htmls
-  write_html(coffee_row,paste0("inputs/data/EightOunce/Coffees/Monogram_", cnt, "_" ,rundate, ".html"))
+  write_html(coffee_row,paste0("R/inputs/data/EightOunce/Coffees/Monogram_", cnt, "_" ,rundate, ".html"))
   
   
   #tibble the character vector
@@ -163,6 +166,6 @@ coffee_names <- filtered %>% select(Roaster, CoffeeName, URL)
 final <- merge(coffee_names, coffee_table, by='URL', all=TRUE) %>% select(-URL)
 
 #write to csv
-path_out = paste0(getwd(),'/outputs/')
+path_out = here::here('R/outputs/')
 file_name = paste0(path_out, 'EightOunce_Monogram_',rundate,".csv")
 write_csv(final,file_name)
