@@ -80,7 +80,6 @@ rownames(hypenated_data) <- 1:nrow(hypenated_data)
 #generate URLs
 URLs <- hypenated_data$URL
 
-
 #remove any URLs that resolve to 404/similar
 checkURLs <- lapply(URLs, function(u) {
   tryCatch({

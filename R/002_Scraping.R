@@ -125,8 +125,14 @@ for(i in URLs){
   coffee <- coffee[2,] %>%
     pivot_wider(names_from = 1, values_from = raw_text) %>% 
     rename(table = 1) %>% 
+    
+    #description for REGEX sep -- this looks for capitalized word delimiters that end with a colon 
+    #example, for this character string REGION:NyeriVARIETAL:SL28 + SL34PROCESS:WashedALTITUDE:1800m - 2100m
+    #delimiters will be REGION: VARIETAL: PROCESS: ALTITUDE:
+    #the six boundary is indended to affect names that might be shorter letters or long that are capitalized that we don't want to delimit on, "F.C.S"
+
     separate(table, into = c("1","Availability","CoffeeType","Style","TastingNotes","DirectTrade","Producer",
-                             "Country","Region","Variety","Processing","Altitude"), sep = "\\b[A-Z][A-Z A-Z+:]*\\b",  remove = TRUE) %>% 
+                             "Country","Region","Variety","Processing","Altitude"), sep = "[A-Z A-Z:]{6,}\\b",  remove = TRUE) %>% 
     select("Country","Region","Producer","Variety","Processing","Altitude","TastingNotes","DirectTrade") 
   
   #removes any that we didn't run
