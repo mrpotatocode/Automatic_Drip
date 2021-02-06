@@ -170,17 +170,18 @@ coffee_names <- filtered %>% select(Roaster, CoffeeName, URL)
 #final merge
 final <- merge(coffee_names, coffee_table, by='URL', all=TRUE) %>% select(-URL)
 
-#remove blends from Detour coffees that don't have varieties, they generally aren't labelled
+#remove blends from Detour coffees that don't have varieties, they generally aren't labelled properly
 final <- final %>% drop_na(Variety)
 
-#add country from coffee name
-final$Country <- final %>% 
-  mutate(temp = str_split(CoffeeName,fixed(', '), n=3)) %>% 
-  mutate(Country = purrr::map_chr(temp, 2)) %>% 
-  select(Country)
-
-#reorder Country to third column
-final <- final[c(1,2,8,3,4,5,6,7)]
+##to be added later, breaking on github 
+# #add country from coffee name
+# final$Country <- final %>% 
+#   mutate(temp = str_split(CoffeeName,fixed(', '), n=3)) %>% 
+#   mutate(Country = purrr::map_chr(temp, 2)) %>% 
+#   select(Country)
+# 
+# #reorder Country to third column
+# final <- final[c(1,2,8,3,4,5,6,7)]
 
 #write to csv
 path_out = here::here('R/outputs/')
