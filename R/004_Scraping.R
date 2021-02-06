@@ -174,9 +174,9 @@ final <- merge(coffee_names, coffee_table, by='URL', all=TRUE) %>% select(-URL)
 final <- final %>% drop_na(Variety)
 
 #add country from coffee name
-final$Country <- final %>% mutate(temp =  str_split(CoffeeName,fixed(', '), n=3)) %>% 
-  mutate(sub_label = purrr::map_chr(temp, 1),
-         Country = purrr::map_chr(temp, 2)) %>% 
+final$Country <- final %>% 
+  mutate(temp = str_split(CoffeeName,fixed(', '), n=3)) %>% 
+  mutate(Country = purrr::map_chr(temp, 2)) %>% 
   select(Country)
 
 #reorder Country to third column
