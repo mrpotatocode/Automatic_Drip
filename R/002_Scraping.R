@@ -149,8 +149,8 @@ for(i in URLs){
 
 #get names of coffees
 coffee_names <- coffee_names %>% 
-  separate(Name, into = c("Roaster","CoffeeName"), sep = case_when("Name" %like% "Pilot Coffee Roasters " ~ "Pilot Coffee Roasters ",
-                                                                   TRUE ~ "Pilot "), remove = TRUE)
+  separate(Name, into = c("Roaster","CoffeeName"), sep = case_when(coffee_names$Name %like% "Pilot Coffee Roasters " ~ "Pilot Coffee Roasters ",
+                                                                   TRUE ~ "Pilot "), remove = FALSE)
 #merge which coffees had data so we can join on index
 filtered_URLs <- merge(hypenated_data,URLs, by.x='URL', by.y ='y', all=FALSE)
 
