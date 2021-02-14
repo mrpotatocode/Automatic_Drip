@@ -10,7 +10,7 @@ name: 000_Scrape
 
 on:
   schedule:
-    - cron: "0 14 * * 0"
+    - cron: "30 20 * * 0"
 
 jobs:
   build:
@@ -68,5 +68,5 @@ jobs:
           git config --local user.name "GitHub Actions"
           git add --all
           git commit -am "add data"
-          git push 
+          git push origin main -f
 
