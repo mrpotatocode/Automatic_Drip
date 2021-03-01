@@ -21,7 +21,8 @@ Imports:
     lubridate,
     xml2,
     magrittr,
-    here
+    here,
+    plyr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
