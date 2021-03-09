@@ -115,7 +115,7 @@ for(i in URLs){
     html_text()
 
   #save the htmls
-  write_html(coffee_row,paste0("R/inputs/data/EightOunce/Coffees/Pilot_", cnt, "_" ,rundate, ".html"))
+  xml2::write_html(coffee_row,paste0("R/inputs/data/EightOunce/Coffees/Pilot_", cnt, "_" ,rundate, ".html"))
 
 
   #tibble the character vector
