@@ -10,7 +10,7 @@ name: 004_Scrape
 
 on:
   schedule:
-    - cron: "30 * * * *"
+    - cron: "15 14 * * 0"
 
 jobs:
   build:
