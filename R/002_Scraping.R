@@ -26,54 +26,54 @@ rundate = toString(sapply(date(now()), gsub, pattern = "-", replacement = "", fi
 
 #get and save data
 raw_data <- read_html("https://eightouncecoffee.ca/collections/pilot-coffee-roasters")
-write_html(raw_data,paste0("R/inputs/data/EightOunce/Pilot_" ,rundate, ".html"))
+xml2::write_html(raw_data,paste0("R/inputs/data/EightOunce/Pilot_" ,rundate, ".html"))
 
 #get roaster, its easier to have it seperate
-Roaster <- tibble("https://eightouncecoffee.ca/collections/pilot-coffee-roasters") %>% 
-  separate(1, into = c("1","Roaster"), sep = "collections/",  remove = TRUE) %>% 
-  select(-1) %>% 
-  sapply(gsub, pattern = "-", replacement = " ", fixed = TRUE) %>% 
+Roaster <- tibble("https://eightouncecoffee.ca/collections/pilot-coffee-roasters") %>%
+  separate(1, into = c("1","Roaster"), sep = "collections/",  remove = TRUE) %>%
+  select(-1) %>%
+  sapply(gsub, pattern = "-", replacement = " ", fixed = TRUE) %>%
   tools::toTitleCase()
 
 #get node
-slightly_cleaned_data <- 
-  raw_data %>% 
-  html_nodes("div [class='grid-product__title grid-product__title--heading']") %>% 
+slightly_cleaned_data <-
+  raw_data %>%
+  html_nodes("div [class='grid-product__title grid-product__title--heading']") %>%
   html_text()
 
 #tibble the character vector
-our_data <- 
+our_data <-
   tibble(raw_text = slightly_cleaned_data)
 
 
 #get the coffee name
-coffee_names <- our_data %>% 
-  rename(Name = raw_text) %>% 
+coffee_names <- our_data %>%
+  rename(Name = raw_text) %>%
   select(Name) %>%
-  mutate(lower_name =  str_to_lower(Name)) %>% 
+  mutate(lower_name =  str_to_lower(Name)) %>%
   mutate(is_blend = if_else(lower_name %like% "blend",1,0),
          is_espresso = if_else(lower_name %like% "espresso",1,0),
          is_decaf = if_else(lower_name %like% "decaf",1,0),
-         is_on_sale = if_else(lower_name %like% "sale",1,0)) %>% 
-  filter(is_blend != 1, is_espresso != 1, is_decaf != 1, is_on_sale != 1) %>% 
+         is_on_sale = if_else(lower_name %like% "sale",1,0)) %>%
+  filter(is_blend != 1, is_espresso != 1, is_decaf != 1, is_on_sale != 1) %>%
   select(-is_blend, -is_espresso, -is_decaf, -is_blend, -is_on_sale)
 
 
 #covert to hypenated words (e.g. 'the-library-specialty-coffee-ethiopia-chelelektu-washed')
 #add prefix: 'https://eightouncecoffee.ca/collections/pilot-coffee-roasters/products/'
-hypenated_data <- coffee_names %>% select(lower_name) %>% 
-  apply( MARGIN = 2, FUN = trimws) %>% 
-  sapply(gsub, pattern = " ", replacement = "-", fixed = TRUE) %>% 
+hypenated_data <- coffee_names %>% select(lower_name) %>%
+  apply( MARGIN = 2, FUN = trimws) %>%
+  sapply(gsub, pattern = " ", replacement = "-", fixed = TRUE) %>%
   sapply(gsub, pattern = ",", replacement = "", fixed = TRUE) %>%
   sapply(gsub, pattern = "---", replacement = "-", fixed = TRUE) %>%
-  as.data.frame() %>% 
-  rename(Hypen_Name = 1) 
+  as.data.frame() %>%
+  rename(Hypen_Name = 1)
 
 #paste these to be URLs
 hypenated_data$URL <- paste0("https://eightouncecoffee.ca/collections/pilot-coffee-roasters/products/",hypenated_data[,1])
 
 #build table
-hypenated_data <- cbind(lower_name = rownames(hypenated_data), hypenated_data) 
+hypenated_data <- cbind(lower_name = rownames(hypenated_data), hypenated_data)
 #reset rowname as index
 rownames(hypenated_data) <- 1:nrow(hypenated_data)
 
@@ -103,41 +103,41 @@ cnt <- 0
 for(i in URLs){
   coffee_row <- read_html(i)
   cnt <- cnt+1
-  
+
   #dig into body table
-  slightly_cleaned_coffee <- 
-    coffee_row %>% 
+  slightly_cleaned_coffee <-
+    coffee_row %>%
     html_nodes("div [id='content']") %>%
     html_nodes("ul") %>%
     html_nodes("li") %>%
     html_nodes("p") %>%
     html_text()
-  
+
   #save the htmls
   write_html(coffee_row,paste0("R/inputs/data/EightOunce/Coffees/Pilot_", cnt, "_" ,rundate, ".html"))
-  
-  
+
+
   #tibble the character vector
-  coffee <- 
+  coffee <-
     tibble(raw_text = slightly_cleaned_coffee)
-  
+
   #seperate details row into relevent columns
   coffee <- coffee[2,] %>%
-    pivot_wider(names_from = 1, values_from = raw_text) %>% 
-    rename(table = 1) %>% 
-    
-    #description for REGEX sep -- this looks for capitalized word delimiters that end with a colon 
+    pivot_wider(names_from = 1, values_from = raw_text) %>%
+    rename(table = 1) %>%
+
+    #description for REGEX sep -- this looks for capitalized word delimiters that end with a colon
     #example, for this character string REGION:NyeriVARIETAL:SL28 + SL34PROCESS:WashedALTITUDE:1800m - 2100m
     #delimiters will be REGION: VARIETAL: PROCESS: ALTITUDE:
     #the six boundary is indended to affect names that might be shorter letters or long that are capitalized that we don't want to delimit on, "F.C.S"
 
     separate(table, into = c("1","Availability","CoffeeType","Style","TastingNotes","DirectTrade","Producer",
-                             "Country","Region","Variety","Processing","Altitude"), sep = "[A-Z A-Z:]{6,}\\b",  remove = TRUE) %>% 
-    select("Country","Region","Producer","Variety","Processing","Altitude","TastingNotes","DirectTrade") 
-  
+                             "Country","Region","Variety","Processing","Altitude"), sep = "[A-Z A-Z:]{6,}\\b",  remove = TRUE) %>%
+    select("Country","Region","Producer","Variety","Processing","Altitude","TastingNotes","DirectTrade")
+
   #removes any that we didn't run
   coffee$URL <- i
-  
+
   #build table
   for (i in nrow(coffee)) {
     coffee_table <- rbind(coffee_table, data.frame(coffee))
@@ -148,19 +148,19 @@ for(i in URLs){
 
 
 #get names of coffees
-coffee_names <- coffee_names %>% 
+coffee_names <- coffee_names %>%
   separate(Name, into = c("Roaster","CoffeeName"), sep = case_when(coffee_names$Name %like% "Pilot Coffee Roasters " ~ "Pilot Coffee Roasters ",
                                                                    TRUE ~ "Pilot "), remove = FALSE)
 #merge which coffees had data so we can join on index
 filtered_URLs <- merge(hypenated_data,URLs, by.x='URL', by.y ='y', all=FALSE)
 
-#update roaster 
+#update roaster
 coffee_names$Roaster <-Roaster
 
 #merge (documentation incomplete)
-newCoffeeName <- coffee_names %>% select(CoffeeName) %>% 
-  sapply(gsub, pattern = "-", replacement = "", fixed = TRUE) %>% 
-  apply( MARGIN = 2, FUN = trimws) %>% 
+newCoffeeName <- coffee_names %>% select(CoffeeName) %>%
+  sapply(gsub, pattern = "-", replacement = "", fixed = TRUE) %>%
+  apply( MARGIN = 2, FUN = trimws) %>%
   as.data.frame()
 
 coffee_names$CoffeeName = newCoffeeName[,1]
