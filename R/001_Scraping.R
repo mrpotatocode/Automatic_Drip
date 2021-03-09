@@ -20,13 +20,14 @@ library(data.table)
 library(rvest)
 library(stringr)
 library(here)
+library(xml2)
 
 #get rundate for file names
 rundate = toString(sapply(date(now()), gsub, pattern = "-", replacement = "", fixed = TRUE))
 
 #get and save data
 raw_data <- read_html("https://eightouncecoffee.ca/collections/monogram-coffee")
-write_html(raw_data,paste0("R/inputs/data/EightOunce/Monogram_" ,rundate, ".html"))
+xml2::write_html(raw_data,paste0("R/inputs/data/EightOunce/Monogram_" ,rundate, ".html"))
 
 #get roaster, its easier to have it seperate
 Roaster <- tibble("https://eightouncecoffee.ca/collections/monogram-coffee") %>% 
@@ -112,7 +113,7 @@ for(i in URLs){
     html_text()
   
   #save the htmls
-  write_html(coffee_row,paste0("R/inputs/data/EightOunce/Coffees/Monogram_", cnt, "_" ,rundate, ".html"))
+  xml2::write_html(coffee_row,paste0("R/inputs/data/EightOunce/Coffees/Monogram_", cnt, "_" ,rundate, ".html"))
   
   
   #tibble the character vector
