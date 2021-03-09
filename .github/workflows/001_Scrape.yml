@@ -68,5 +68,5 @@ jobs:
           git config --local user.name "GitHub Actions"
           git add --all
           git commit -am "add data"
-          git push 
+          git push origin main -f
 
