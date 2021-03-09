@@ -20,6 +20,7 @@ library(data.table)
 library(rvest)
 library(stringr)
 library(here)
+library(xml2)
 
 #get rundate for file names
 rundate = toString(sapply(date(now()), gsub, pattern = "-", replacement = "", fixed = TRUE))
