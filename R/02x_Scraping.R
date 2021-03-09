@@ -19,6 +19,7 @@ library(data.table)
 library(rvest)
 library(stringr)
 library(here)
+library(xml2)
 library(plyr)
 
 #get rundate for file names
@@ -26,7 +27,7 @@ rundate = toString(sapply(date(now()), gsub, pattern = "-", replacement = "", fi
 
 #get and save data
 raw_data <- read_html("https://www.seycoffee.com/collections/archived-coffees")
-write_html(raw_data,paste0("R/inputs/data/Sey/SeyArchive_" ,rundate, ".html"))
+xml2::write_html(raw_data,paste0("R/inputs/data/Sey/SeyArchive_" ,rundate, ".html"))
 
 #get node
 slightly_cleaned_data <-
