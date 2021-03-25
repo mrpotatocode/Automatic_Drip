@@ -10,7 +10,7 @@ How you _might_ ask?
 
 ~~Magic of course.~~ Github Actions! 
 
-### Do it yourself
+## Do it yourself
 
 Scripts are [here](https://github.com/mrpotatocode/Automatic_Drip/tree/main/R). 
 
