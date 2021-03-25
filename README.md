@@ -16,8 +16,11 @@ Scripts are [here](https://github.com/mrpotatocode/Automatic_Drip/tree/main/R).
 
 Actions are [here](https://github.com/mrpotatocode/Automatic_Drip/tree/main/.github/workflows).
 
-Then bulk load
+Then bulk load:
 ```
+library(tidyverse)
+library(data.table)
+
 ### add filename with a mutate (or add your own!)
 read_plus <- function(flnm) {
     read_csv(flnm) %>% 
