@@ -9,3 +9,25 @@ But this does my stuff for me because laziness is pretty much the next best thin
 How you _might_ ask? 
 
 ~~Magic of course.~~ Github Actions! 
+
+### Do it yourself
+
+Scripts are [here](https://github.com/mrpotatocode/Automatic_Drip/tree/main/R). 
+
+Actions are [here](https://github.com/mrpotatocode/Automatic_Drip/tree/main/.github/workflows).
+
+Then bulk load
+```
+### add filename with a mutate (or add your own!)
+read_plus <- function(flnm) {
+    read_csv(flnm) %>% 
+        mutate(filename = flnm)
+}
+
+datafolder <-  paste0(here(),'/data') ###set your directory here
+raw_data <-  
+    list.files(path = datafolder,
+      pattern = "*.csv",
+      full.names = T) %>% 
+    map_df(~read_plus(.))
+```
