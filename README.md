@@ -2,13 +2,17 @@
 
 We really don't know anything about life, the universe, and everything, do we?
 
-But this does my stuff for me because laziness is pretty much the next best thing.
+But this does my stuff for me because laziness is pretty much the next best thing to knowing the answer to the question.
 
 ## It goes and gets data from a few websites on a weekly basis and turns it into a nice csv
 
 How you _might_ ask? 
 
 ~~Magic of course.~~ Github Actions! 
+
+Why you _might_ ask?
+
+Weekly data for my work [here](https://github.com/mrpotatocode/COFFEE_COFFEE_COFFEE)
 
 ## Do it yourself
 
