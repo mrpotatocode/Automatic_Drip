@@ -13,7 +13,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "15 * * * 0"
+    - cron: "05 14 * * 1"
 
 jobs:
   build:
