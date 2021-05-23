@@ -9,15 +9,20 @@
 name: 000_Scrape
 
 on:
+  push:
+    branches:
+      - main
   schedule:
-    - cron: "0 14 * * 0"
+    - cron: "15 * * * 0"
 
 jobs:
   build:
-    runs-on: macOS-latest
+    runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
-        r-version: [3.6]
+        config:
+          - {os: macOS-latest,   r: '3.6'}
+
 
     steps:
       - uses: actions/checkout@v2
