@@ -37,4 +37,17 @@ raw_data <-
       pattern = "*.csv",
       full.names = T) %>% 
     map_df(~read_plus(.))
+    
+   
+### data bigger than mine? use fread instead, I promise you it's fast
+read_plus <- function(flnm) {
+    fread(flnm) %>% 
+        mutate(filename = flnm)
+}
+
+datafolder <-  paste0(here(),'/data') ###set your directory here
+raw_data <- 
+    rbindlist(parallel::mclapply(mc.cores = 1,     ###update your cores
+        list.files(path = datafolder, pattern = "*.csv"), 
+        read_plus))  
 ```
