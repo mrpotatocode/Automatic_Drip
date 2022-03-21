@@ -9,9 +9,6 @@
 name: 002_Scrape
 
 on:
-  push:
-    branches:
-      - main
   schedule:
     - cron: "0 15 * * 1"
 
