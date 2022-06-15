@@ -5,7 +5,7 @@ Authors@R:
     person(given = "Thomas",
            family = "Rosenthal",
            role = c("aut", "cre"),
-           email = "t.rose.github@protonmail.com")
+           email = "mrpotatocode@ttrroossee.anonaddy.com")
 Description: This is the first attempt 
 License: MIT
 Depends: 
