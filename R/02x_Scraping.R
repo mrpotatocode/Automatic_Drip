@@ -1,7 +1,7 @@
 #### Preamble ####
 # Purpose: The purpose of this script is to download all of the coffees by Sey Coffees that have been archived on Sey.com
 # Author: Thomas Rosenthal
-# Email: t.rose.github@protonmail.com
+# Email: mrpotatocode@ttrroossee.anonaddy.com
 # Last updated: 25 Feb 2021
 # Prerequisites: see description file, several packages
 # Misc: runs on github actions
