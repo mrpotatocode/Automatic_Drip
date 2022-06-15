@@ -2,7 +2,7 @@
 #### Preamble ####
 # Purpose: The purpose of this script is to download all of the coffees by Mongraph on EightOunceCoffee.ca
 # Author: Thomas Rosenthal
-# Email: t.rose.github@protonmail.com
+# Email: mrpotatocode@ttrroossee.anonaddy.com
 # Last updated: 31 Jan 2021
 # Prerequisites: ?
 # Misc:#### Set up workspace ####
