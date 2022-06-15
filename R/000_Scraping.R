@@ -2,7 +2,7 @@
 #### Preamble ####
 # Purpose: The purpose of this script is to download all of the coffees by The Library on EightOunceCoffee.ca
 # Author: Thomas Rosenthal
-# Email: t.rose.github@protonmail.com
+# Email: mrpotatocode@ttrroossee.anonaddy.com
 # Last updated: 4 Feb 2021
 # Prerequisites: see description file, several packages
 # Misc: runs on github actions
