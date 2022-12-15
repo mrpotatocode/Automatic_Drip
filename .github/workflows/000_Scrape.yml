@@ -33,8 +33,6 @@ jobs:
           r-version: ${{ matrix.r-version }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
 
-      - uses: r-lib/actions/setup-pandoc@master
-
       - name: Query dependencies
         run: |
           install.packages('remotes')
