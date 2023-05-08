@@ -11,6 +11,8 @@ name: 02x_Scrape
 on:
   schedule:
     - cron: "0 17 * * 1"
+  push:
+    branches: [ "main" ]
     
 jobs:
   build:
